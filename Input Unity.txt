@@ -1,0 +1,21 @@
+Fenêtre de debug pour les controllers :
+    -  Window -> Analysis -> Input Debugger
+    Les controllers actuellement plugger sont affichers ici. On peut aussi afficher en temps réel les inputs en double cliquant sur le controllers. 
+    Lorsque qu'un controller est branché, un evenement est lancer, on peut récupérer l'évenement si besoin. 
+    Les boutons ont plusieurs noms: le nom sur la manette (par exemple Cross, ou A), et la position du bouton, identifié par sa position cardinal (South, East, etc...)
+
+Actions: 
+    - Pas de gestion de l'appuie d'un bouton directement dans le code du jeu, mais plutôt d'une gestion d'actions, type "Sauter" ou "Tirer". 
+    - les actions se gérent via un asset InputActions
+
+Fenêtre Input Actions : 
+    - Action maps : Ensemble d'actions pour un contexte particulier, par exemple "Menu" ou "Gameplay"
+    - Actions: Une action (le nom doit être unique). 
+    - Proprerties : les boutons 
+    - Control scheme : définir pour quel type d'input les bouton définis sont valides.
+
+PlayerInput : 
+    Monobehavior Component
+    Un part joueur
+
+PlayerInputManager pour faciliter la création de plusieurs 

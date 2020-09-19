@@ -1,0 +1,4 @@
+1. Add it in the "Keys.txt" file
+2. Add it with a description in the "Keys and desc.txt" file
+3. Add a translation in every translation csv file. 
+4. Add it in class file "TranslationKeys.cs", in the enumeration, and in both functions that returns the string associated to the key, and the key associated to the string

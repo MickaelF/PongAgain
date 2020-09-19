@@ -1,0 +1,33 @@
+Keys and descriptions : 
+
+"LetsPlay"                      : Button on the first screen to start the game
+"Back"                          : Button to go back to previous menu
+"Cooperation"                   : Name of game mode Cooperation. 
+"CooperationDesc"               : Description of the game mode Cooperation.
+"TimeLimit"                     : Name of game mode Time Limit
+"TimeLimitDesc"                 : Description of the game mode Time Limit
+"TimeLimitOption"               : Time limit selection label
+"ScoreLimit"                    : Name of game mode Score Limit
+"ScoreLimitDesc"                : Description of the game mode Score Limit
+"ScoreLimitOption"              : Score limit selection label
+"PlayerOneLabel"                : Player one label on the player selection screen
+"PlayerTwoLabel"                : Player two label on the player selection screen
+"DifficultyLabel"               : Label of the difficulty selection 
+"DifficultyEasy"                : Easy difficulty
+"DifficultyMedium"              : Medium difficulty
+"DifficultyHard"                : Hard difficulty
+"StartGameButton"               : Start button at the bottom of the character selection screen
+"PressButtonLabel"              : Text displayed to say to the player to press a button to join the game
+"SpeedParametersCharacter"      : Speed of the selected character
+"ReboundParametersCharacter"    : Force added to the ball at each rebound on the selected character
+"Select"                        : Select the option highlighted
+"Confirm"                       : Confirm options selected
+"DefaultValue"                  : Set back the option to the default value
+"PlayerNumber"                  : Number of player
+"ParameterLabel"                : Unused label
+"ReadyLabel"                    : Label for the button to start the game, once character is selected
+"SettingsLabel"                 : Label of the settings page
+"QuitPopUpLabel"                : Title of the quit pop-up displayed when trying to go back on main screen
+"QuitPopUpDesc"                 : Description of the quit pop-up displayed when trying to go back on main screen
+"Quit"                          : Quit label for button
+"Continue"                      : Continue label for button
