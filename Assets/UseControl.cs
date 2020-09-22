@@ -36,17 +36,9 @@ public class @UseControl : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": ""Decline"",
-                    ""type"": ""PassThrough"",
+                    ""type"": ""Value"",
                     ""id"": ""3ce6f3ce-4418-4911-99ed-7e19d2889a85"",
                     ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """"
-                },
-                {
-                    ""name"": ""Pointer"",
-                    ""type"": ""Value"",
-                    ""id"": ""9b97635b-0014-4f52-bd17-6edaffb53bd4"",
-                    ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """"
                 }
@@ -208,17 +200,6 @@ public class @UseControl : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""8b2835eb-979b-4695-9eb1-87dd2cd355b8"",
-                    ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""New control scheme"",
-                    ""action"": ""Accept"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""2942aaa3-9ca8-45d1-b44a-c9af434ca4c2"",
                     ""path"": ""<Keyboard>/escape"",
                     ""interactions"": """",
@@ -258,17 +239,6 @@ public class @UseControl : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": ""New control scheme"",
                     ""action"": ""Decline"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""cd95c3e8-e239-4d4f-801c-4dcd4db12450"",
-                    ""path"": ""<Pointer>/delta"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""New control scheme"",
-                    ""action"": ""Pointer"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -386,7 +356,6 @@ public class @UseControl : IInputActionCollection, IDisposable
         m_UI_Move = m_UI.FindAction("Move", throwIfNotFound: true);
         m_UI_Accept = m_UI.FindAction("Accept", throwIfNotFound: true);
         m_UI_Decline = m_UI.FindAction("Decline", throwIfNotFound: true);
-        m_UI_Pointer = m_UI.FindAction("Pointer", throwIfNotFound: true);
         // Game
         m_Game = asset.FindActionMap("Game", throwIfNotFound: true);
         m_Game_Move = m_Game.FindAction("Move", throwIfNotFound: true);
@@ -442,7 +411,6 @@ public class @UseControl : IInputActionCollection, IDisposable
     private readonly InputAction m_UI_Move;
     private readonly InputAction m_UI_Accept;
     private readonly InputAction m_UI_Decline;
-    private readonly InputAction m_UI_Pointer;
     public struct UIActions
     {
         private @UseControl m_Wrapper;
@@ -450,7 +418,6 @@ public class @UseControl : IInputActionCollection, IDisposable
         public InputAction @Move => m_Wrapper.m_UI_Move;
         public InputAction @Accept => m_Wrapper.m_UI_Accept;
         public InputAction @Decline => m_Wrapper.m_UI_Decline;
-        public InputAction @Pointer => m_Wrapper.m_UI_Pointer;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -469,9 +436,6 @@ public class @UseControl : IInputActionCollection, IDisposable
                 @Decline.started -= m_Wrapper.m_UIActionsCallbackInterface.OnDecline;
                 @Decline.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnDecline;
                 @Decline.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnDecline;
-                @Pointer.started -= m_Wrapper.m_UIActionsCallbackInterface.OnPointer;
-                @Pointer.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnPointer;
-                @Pointer.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnPointer;
             }
             m_Wrapper.m_UIActionsCallbackInterface = instance;
             if (instance != null)
@@ -485,9 +449,6 @@ public class @UseControl : IInputActionCollection, IDisposable
                 @Decline.started += instance.OnDecline;
                 @Decline.performed += instance.OnDecline;
                 @Decline.canceled += instance.OnDecline;
-                @Pointer.started += instance.OnPointer;
-                @Pointer.performed += instance.OnPointer;
-                @Pointer.canceled += instance.OnPointer;
             }
         }
     }
@@ -539,7 +500,6 @@ public class @UseControl : IInputActionCollection, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnAccept(InputAction.CallbackContext context);
         void OnDecline(InputAction.CallbackContext context);
-        void OnPointer(InputAction.CallbackContext context);
     }
     public interface IGameActions
     {

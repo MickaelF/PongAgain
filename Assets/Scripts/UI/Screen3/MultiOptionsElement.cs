@@ -5,18 +5,26 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using SimplePong.Localisation;
 
-public class MultiOptionsElement : MonoBehaviour, ISelectHandler, IDeselectHandler, IPointerClickHandler
+public class MultiOptionsElement : MonoBehaviour, ISelectHandler, IDeselectHandler
 {
     private bool m_isSelected = false; 
 
     [Header("Arrows")]
-    [SerializeField] private BoxCollider2D m_leftArrow = null;
-    [SerializeField] private BoxCollider2D m_rightArrow = null;
+    [SerializeField] private Image m_leftArrow = null;
+    [SerializeField] private Image m_rightArrow = null;
     
     [Header("Visual elements")]
     [SerializeField] private Image m_background = null;
     [SerializeField] private LocaliseText m_label = null;
     [SerializeField] private Text m_option = null;
+
+    private static UseControl m_actions = null;
+
+    private int m_objectIndex; 
+    public int objectIndex 
+    {
+        set { m_objectIndex = value; }
+    }
 
     public TranslationKeys labelKey
     {
@@ -35,6 +43,8 @@ public class MultiOptionsElement : MonoBehaviour, ISelectHandler, IDeselectHandl
 
     void Start()
     {
+        if (m_actions == null)
+            m_actions = new UseControl();
         m_option.text = m_options[m_currentIndex];
     }
 
@@ -45,6 +55,8 @@ public class MultiOptionsElement : MonoBehaviour, ISelectHandler, IDeselectHandl
         m_background.color = Style.white;
         m_label.color = Style.white;
         m_option.color = Style.purple;
+        m_leftArrow.color = Style.black;
+        m_rightArrow.color = Style.black;
     }
 
     public void OnDeselect(BaseEventData data)
@@ -54,21 +66,12 @@ public class MultiOptionsElement : MonoBehaviour, ISelectHandler, IDeselectHandl
         m_background.color = Style.unselectedColor;
         m_label.color = Style.unselectedColor;
         m_option.color = Style.unselectedColor;
+        m_leftArrow.color = Style.unselectedColor;
+        m_rightArrow.color = Style.unselectedColor;
     }
 
-    public void OnPointerClick(PointerEventData data)
+    public void OnClicked()
     {
-        if (!m_isSelected)
-            return; 
-
-        if (m_currentIndex > 0 && m_leftArrow.bounds.Contains(data.position))
-        {
-            m_currentIndex--;
-        }
-        else if (m_currentIndex < m_options.Count - 1 && m_rightArrow.bounds.Contains(data.position))
-        {
-            m_currentIndex++;
-        }
-
+        GetComponentInParent<Screen3>().SelectNextOption(m_objectIndex);
     }
 }

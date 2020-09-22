@@ -23,17 +23,9 @@
                 },
                 {
                     "name": "Decline",
-                    "type": "PassThrough",
+                    "type": "Value",
                     "id": "3ce6f3ce-4418-4911-99ed-7e19d2889a85",
                     "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "Pointer",
-                    "type": "Value",
-                    "id": "9b97635b-0014-4f52-bd17-6edaffb53bd4",
-                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": ""
                 }
@@ -195,17 +187,6 @@
                 },
                 {
                     "name": "",
-                    "id": "8b2835eb-979b-4695-9eb1-87dd2cd355b8",
-                    "path": "<Mouse>/leftButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "New control scheme",
-                    "action": "Accept",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "2942aaa3-9ca8-45d1-b44a-c9af434ca4c2",
                     "path": "<Keyboard>/escape",
                     "interactions": "",
@@ -245,17 +226,6 @@
                     "processors": "",
                     "groups": "New control scheme",
                     "action": "Decline",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "cd95c3e8-e239-4d4f-801c-4dcd4db12450",
-                    "path": "<Pointer>/delta",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "New control scheme",
-                    "action": "Pointer",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
