@@ -14,7 +14,8 @@ public class Screen3 : Screen
     [SerializeField] private LocaliseText m_parameterLabel = null; 
     [SerializeField] private Button m_validateButton = null; 
 
-    private List<GameObject> m_uiElements = new List<GameObject>();
+    private List<MultiOptionsElement> m_uiElements = new List<MultiOptionsElement>();
+
     public override void Display()
     {
         gameObject.SetActive(true);   
@@ -35,17 +36,17 @@ public class Screen3 : Screen
                 break;
         }
         UpdateNavigation();
-        EventSystem.current.SetSelectedGameObject(m_uiElements[0]);
+        EventSystem.current.SetSelectedGameObject(m_uiElements[0].gameObject);
     }
 
-    private GameObject InstanciateElement(TranslationKeys key, List<string> elements, int index)
+    private MultiOptionsElement InstanciateElement(TranslationKeys key, List<string> elements, int index)
     {
         var go = Instantiate(m_optionPrefab, m_layoutGroup.transform, false) as GameObject;
         var optionElement = go.GetComponentInChildren<MultiOptionsElement>();
         optionElement.objectIndex = index;
         optionElement.labelKey = key; 
         optionElement.options = elements;
-        return optionElement.gameObject;
+        return optionElement;
     }
 
     private void AddDifficulties() 
@@ -85,11 +86,18 @@ public class Screen3 : Screen
         if (i == m_uiElements.Count -1)
             EventSystem.current.SetSelectedGameObject(m_validateButton.gameObject);
         else 
-            EventSystem.current.SetSelectedGameObject(m_uiElements[i +1]);
+            EventSystem.current.SetSelectedGameObject(m_uiElements[i + 1].gameObject);
     }
 
     public void OnValidate()
     {
+        GameParameters.playerNumberSelected = m_uiElements[0].currentIndex + 1;
+        GameParameters.difficultySelected = m_uiElements[1].currentIndex;
+        if (GameParameters.selectedMode == GameParameters.GameMode.ScoreLimit)
+            GameParameters.scoreLimitIndexSelected = m_uiElements[2].currentIndex;
+        else if (GameParameters.selectedMode == GameParameters.GameMode.TimeLimit)
+            GameParameters.timeLimitIndexSelected = m_uiElements[2].currentIndex;
+
         GoToNextScreen();
     }
 

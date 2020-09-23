@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
 public abstract class Screen : MonoBehaviour
@@ -17,6 +15,8 @@ public abstract class Screen : MonoBehaviour
 
     protected void GoToPreviousScreen()
     {
+        if (!m_previousScreen)
+            return;
         HideCurrentScreen();
         m_previousScreen.Display();
         m_currentScreen = m_previousScreen;
@@ -24,6 +24,8 @@ public abstract class Screen : MonoBehaviour
 
     protected void GoToNextScreen()
     {
+        if (!m_nextScreen)
+            return;
         HideCurrentScreen(); 
         m_nextScreen.Display();
         m_currentScreen = m_nextScreen;
