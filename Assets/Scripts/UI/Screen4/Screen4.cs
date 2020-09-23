@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 
@@ -25,6 +26,7 @@ public class Screen4 : Screen
             playerSelection.SetPlayerNumber(i);
             m_playerSelection.Add(playerSelection);
         }
+        EventSystem.current.SetSelectedGameObject(m_playerSelection[0].characterName.gameObject);
     }
 
     

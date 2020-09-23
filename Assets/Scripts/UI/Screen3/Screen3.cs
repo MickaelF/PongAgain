@@ -46,6 +46,7 @@ public class Screen3 : Screen
         optionElement.objectIndex = index;
         optionElement.labelKey = key; 
         optionElement.options = elements;
+        optionElement.OptionClicked += SelectNextOption;
         return optionElement;
     }
 
@@ -91,6 +92,8 @@ public class Screen3 : Screen
 
     public void OnValidate()
     {
+        if (m_uiElements.Count == 0)
+            return; 
         GameParameters.playerNumberSelected = m_uiElements[0].currentIndex + 1;
         GameParameters.difficultySelected = m_uiElements[1].currentIndex;
         if (GameParameters.selectedMode == GameParameters.GameMode.ScoreLimit)
@@ -108,5 +111,6 @@ public class Screen3 : Screen
         for (int i = 0; i < childCount; ++i)
             DestroyImmediate(m_layoutGroup.transform.GetChild(0).gameObject);
         m_uiElements.Clear();
+        m_validateButton.OnDeselect(null);
     } 
 }

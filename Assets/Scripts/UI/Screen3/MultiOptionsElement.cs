@@ -22,9 +22,10 @@ public class MultiOptionsElement : MonoBehaviour, ISelectHandler, IDeselectHandl
     public delegate void Index(int i);
     public event Index IndexChanged; 
 
-    private static UseControl m_actions = null;
+    public delegate void Clicked(int index);
+    public event Clicked OptionClicked;
 
-    private int m_objectIndex; 
+    private int m_objectIndex = 0; 
     public int objectIndex 
     {
         set { m_objectIndex = value; }
@@ -45,10 +46,13 @@ public class MultiOptionsElement : MonoBehaviour, ISelectHandler, IDeselectHandl
     private int m_currentIndex = 0; 
     public int currentIndex { get { return m_currentIndex; } }
 
+    void Awake() 
+    {
+        OnDeselect(null);
+    }
+
     void Start()
     {
-        if (m_actions == null)
-            m_actions = new UseControl();
         m_option.text = m_options[m_currentIndex];
     }
 
@@ -57,7 +61,8 @@ public class MultiOptionsElement : MonoBehaviour, ISelectHandler, IDeselectHandl
         m_isSelected = true;
         m_background.sprite = Style.selectedBkgBtn;
         m_background.color = Style.white;
-        m_label.color = Style.white;
+        if (m_label.isActiveAndEnabled)
+            m_label.color = Style.white;
         m_option.color = Style.purple;
         m_leftArrow.color = Style.black;
         m_rightArrow.color = Style.black;
@@ -69,7 +74,8 @@ public class MultiOptionsElement : MonoBehaviour, ISelectHandler, IDeselectHandl
         m_isSelected = false;
         m_background.sprite = Style.unselectedBkgBtn;
         m_background.color = Style.unselectedColor;
-        m_label.color = Style.unselectedColor;
+        if (m_label.isActiveAndEnabled)
+            m_label.color = Style.unselectedColor;
         m_option.color = Style.unselectedColor;
         m_leftArrow.color = Style.unselectedColor;
         m_rightArrow.color = Style.unselectedColor;
@@ -78,7 +84,8 @@ public class MultiOptionsElement : MonoBehaviour, ISelectHandler, IDeselectHandl
 
     public void OnClicked()
     {
-        GetComponentInParent<Screen3>().SelectNextOption(m_objectIndex);
+        if (OptionClicked != null)
+            OptionClicked(m_objectIndex);
     }
 
     public void OnMoveDone(InputAction.CallbackContext context)

@@ -3207,7 +3207,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1588524986
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3299,10 +3299,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fc770715408ff843b7e8a98733acc0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_previousScreen: {fileID: 0}
+  m_previousScreen: {fileID: 1936795239}
   m_nextScreen: {fileID: 0}
-  m_prefab: {fileID: 0}
-  m_layout: {fileID: 0}
+  m_prefab: {fileID: 1186753888910178411, guid: 8c82668e5b6ef924fa870aaff0c6b679,
+    type: 3}
+  m_layout: {fileID: 1588524991}
 --- !u!114 &1588524991
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3854,7 +3855,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_previousScreen: {fileID: 1367285016}
-  m_nextScreen: {fileID: 0}
+  m_nextScreen: {fileID: 1588524990}
   m_optionPrefab: {fileID: 8951984008141144603, guid: 43f861a2c55a6cd47bd7c42097af9f9c,
     type: 3}
   m_layoutGroup: {fileID: 316241646}
