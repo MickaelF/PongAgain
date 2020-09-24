@@ -156,9 +156,10 @@ public class PlayerSelection : MonoBehaviour
     {
         if (m_characterName.isSelected)
         {
-            Destroy(m_playerInput.gameObject);
+            var go = m_playerInput.gameObject;
             m_characterName.OnDeselect(null);
             playerInput = null; 
+            Destroy(go);
         }
         else if (m_isReady)
         {

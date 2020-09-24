@@ -13,22 +13,18 @@ public class Screen4 : Screen
     [SerializeField] private HorizontalLayoutGroup m_layout = null; 
     private List<PlayerSelection> m_playerSelection;
     private PlayerInputManager m_inputManager; 
-    private UserControl m_action; 
 
     void Awake()
     {
         m_playerSelection = new List<PlayerSelection>();
         m_inputManager = PlayerInputManager.instance;
         m_inputManager.playerPrefab = m_playerPrefab;
-        m_action = new UserControl();
-        m_action.UI.Enable();
-
     }
 
     public override void Display()
     {
         gameObject.SetActive(true);
-        m_action.UI.Submit.started += m_inputManager.JoinPlayerFromActionIfNotAlreadyJoined;
+        GlobalInputs.Instance.inputSystem.submit.action.started += m_inputManager.JoinPlayerFromActionIfNotAlreadyJoined;
         m_inputManager.EnableJoining(); 
         m_inputManager.onPlayerJoined += OnPlayerJoin; 
         m_inputManager.onPlayerLeft += OnPlayerLeft; 
@@ -44,7 +40,7 @@ public class Screen4 : Screen
     
     protected override void HideCurrentScreen()
     {
-        m_action.UI.Submit.started -= m_inputManager.JoinPlayerFromActionIfNotAlreadyJoined;
+        GlobalInputs.Instance.inputSystem.submit.action.started -= m_inputManager.JoinPlayerFromActionIfNotAlreadyJoined;
         m_inputManager.onPlayerJoined -= OnPlayerJoin; 
         m_inputManager.onPlayerLeft -= OnPlayerLeft; 
         m_inputManager.DisableJoining(); 
@@ -68,7 +64,7 @@ public class Screen4 : Screen
         if (m_playerSelection[0].playerInput != null 
             && (m_playerSelection.Count == 1 || m_playerSelection[1].playerInput != null))   
         {
-            m_action.UI.Submit.started -= m_inputManager.JoinPlayerFromActionIfNotAlreadyJoined;
+            GlobalInputs.Instance.inputSystem.submit.action.started -= m_inputManager.JoinPlayerFromActionIfNotAlreadyJoined;
         }
     }
 
@@ -78,7 +74,7 @@ public class Screen4 : Screen
             && (m_playerSelection.Count == 1 || m_playerSelection[1].playerInput == null))
         {            
             StartListenToCancelAction();
-            m_action.UI.Submit.started += m_inputManager.JoinPlayerFromActionIfNotAlreadyJoined;
+            GlobalInputs.Instance.inputSystem.submit.action.started += m_inputManager.JoinPlayerFromActionIfNotAlreadyJoined;
         }
         
     }
