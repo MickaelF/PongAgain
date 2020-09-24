@@ -9,6 +9,9 @@ using SimplePong.Localisation;
 public class MultiOptionsElement : MonoBehaviour, ISelectHandler, IDeselectHandler
 {
     private bool m_isSelected = false; 
+    public bool isSelected { get { return m_isSelected; } }
+
+    public bool m_useGlobalInput = true;
 
     [Header("Arrows")]
     [SerializeField] private Image m_leftArrow = null;
@@ -66,7 +69,8 @@ public class MultiOptionsElement : MonoBehaviour, ISelectHandler, IDeselectHandl
         m_option.color = Style.purple;
         m_leftArrow.color = Style.black;
         m_rightArrow.color = Style.black;
-        GlobalInputs.Instance.inputSystem.move.action.performed += OnMoveDone;
+        if (m_useGlobalInput)
+            GlobalInputs.Instance.inputSystem.move.action.performed += OnMoveDone;
     }
 
     public void OnDeselect(BaseEventData data)
@@ -79,7 +83,8 @@ public class MultiOptionsElement : MonoBehaviour, ISelectHandler, IDeselectHandl
         m_option.color = Style.unselectedColor;
         m_leftArrow.color = Style.unselectedColor;
         m_rightArrow.color = Style.unselectedColor;
-        GlobalInputs.Instance.inputSystem.move.action.performed -= OnMoveDone;
+        if (m_useGlobalInput)
+            GlobalInputs.Instance.inputSystem.move.action.performed -= OnMoveDone;
     }
 
     public void OnClicked()
@@ -91,6 +96,11 @@ public class MultiOptionsElement : MonoBehaviour, ISelectHandler, IDeselectHandl
     public void OnMoveDone(InputAction.CallbackContext context)
     {
         Vector2 move = context.ReadValue<Vector2>();
+        OnMoveDone(move);
+    }
+
+    public void OnMoveDone(Vector2 move)
+    {
         if (move.x == 0)
             return; 
         if (move.x > 0 && m_currentIndex != m_options.Count - 1)

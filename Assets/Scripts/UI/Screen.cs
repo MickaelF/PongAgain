@@ -17,6 +17,7 @@ public abstract class Screen : MonoBehaviour
     {
         if (!m_previousScreen)
             return;
+            
         HideCurrentScreen();
         m_previousScreen.Display();
         m_currentScreen = m_previousScreen;
@@ -26,12 +27,12 @@ public abstract class Screen : MonoBehaviour
     {
         if (!m_nextScreen)
             return;
+
         HideCurrentScreen(); 
         m_nextScreen.Display();
         m_currentScreen = m_nextScreen;
     }
-
-    public static void ListenToCancelAction()
+    public static void StartListenToCancelAction()
     {
         GlobalInputs.Instance.inputSystem.cancel.action.started += CancelPressedAction;
     }
@@ -42,12 +43,11 @@ public abstract class Screen : MonoBehaviour
 
     public static void CancelPressedAction(InputAction.CallbackContext ctx)
     {
-        if (ctx.started)
-            m_currentScreen.OnCancelPressed();
+        m_currentScreen.OnCancelPressed();
     }
 
     public virtual void OnCancelPressed()
-    {
+    { 
         GoToPreviousScreen();
     }
 }

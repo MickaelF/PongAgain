@@ -8,7 +8,7 @@ public class MainScreen : Screen
     void Start()
     {
         m_currentScreen = this;
-        ListenToCancelAction();
+        StartListenToCancelAction();
         EventSystem.current.SetSelectedGameObject(m_selectedGameObject);
         m_header.SetActive(false);
     }

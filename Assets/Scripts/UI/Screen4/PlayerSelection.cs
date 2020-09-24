@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 using SimplePong.Localisation;
 
 public class PlayerSelection : MonoBehaviour
@@ -10,17 +11,33 @@ public class PlayerSelection : MonoBehaviour
     [SerializeField] private MultiOptionsElement m_characterName = null;
     public MultiOptionsElement characterName { get { return m_characterName; } } 
 
+    [SerializeField] private GameObject m_selectionScreen = null; 
+    [SerializeField] private GameObject m_pressActionScreen = null; 
+
     [SerializeField] private Image m_speedStats = null; 
     [SerializeField] private Image m_reboundStats = null; 
     [SerializeField] private Image m_lenghtStats = null; 
     [SerializeField] private LocaliseText m_playerNumberText = null;
     [SerializeField] private GameObject m_selectionPrefab = null;
+    [SerializeField] private ReadyButton m_readyButton = null; 
     private int m_playerNumber;
     private CharacterPanel m_cameraPanel = null; 
     private RenderTexture m_targetTexture = null; 
 
+    private PlayerInput m_playerInput = null; 
+    public PlayerInput playerInput 
+    {
+        get { return m_playerInput; } 
+        set { SetPlayerInput(value); }
+    } 
+
+    private bool m_isReady = false; 
+    public bool isReady { get {return m_isReady; } }
+
+
     void Awake()
     {
+        m_characterName.m_useGlobalInput = false;
         m_characterName.IndexChanged += UpdateCharacter;
         m_characterName.OptionClicked += SelectReadyButton; 
         m_characterName.options = CharactersGlobal.instance.GetCharacterNames();
@@ -64,5 +81,94 @@ public class PlayerSelection : MonoBehaviour
 
     private void SelectReadyButton(int index)
     {
+    }
+
+    private void SetPlayerInput(PlayerInput input)
+    {
+        if (m_playerInput != null)
+        {
+            var proxy = m_playerInput.GetComponent<PlayerInputProxy>();
+            proxy.PlayerMoved -= OnMoveMade;
+            proxy.PlayerAccept -= OnAcceptPressed;
+            proxy.PlayerDecline -= OnDeclinePressed;
+        }
+
+        m_playerInput = input;
+        if (m_playerInput != null)
+        {
+            var proxy = m_playerInput.GetComponent<PlayerInputProxy>();
+            proxy.PlayerMoved += OnMoveMade;
+            proxy.PlayerAccept += OnAcceptPressed;
+            proxy.PlayerDecline += OnDeclinePressed;
+            m_selectionScreen.SetActive(true);
+            m_pressActionScreen.SetActive(false);
+            m_characterName.OnSelect(null);
+        }
+        else 
+        {
+            m_selectionScreen.SetActive(false);
+            m_pressActionScreen.SetActive(true);
+        }
+    }
+
+    private void OnMoveMade(Vector2 move)
+    {
+        if (m_isReady)
+            return;
+
+        if (m_characterName.isSelected)
+        {
+            if (move.x != 0.0f)
+                m_characterName.OnMoveDone(move);
+            else if (move.y < 0.0f)
+            {
+                m_characterName.OnDeselect(null);
+                m_readyButton.OnSelect(null);
+            }
+        }
+        else 
+        {
+            if (move.y > 0.0f)
+            {
+                m_characterName.OnSelect(null);
+                m_readyButton.OnDeselect(null);
+            }
+        }
+    }
+
+    private void OnAcceptPressed()
+    {
+        if (m_isReady)
+            return;
+
+        if (m_characterName.isSelected)
+        {
+            m_characterName.OnDeselect(null);
+            m_readyButton.OnSelect(null);
+        }
+        else 
+        {
+            // Mark ready
+        }
+    }
+
+    private void OnDeclinePressed()
+    {
+        if (m_characterName.isSelected)
+        {
+            Destroy(m_playerInput.gameObject);
+            m_characterName.OnDeselect(null);
+            playerInput = null; 
+        }
+        else if (m_isReady)
+        {
+            m_isReady = false; 
+            // Remove ready thingy
+        }
+        else
+        {
+            m_characterName.OnSelect(null);
+            m_readyButton.OnDeselect(null);
+        }
     }
 }

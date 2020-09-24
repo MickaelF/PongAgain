@@ -12,7 +12,7 @@ using UnityEngine.InputSystem.DualShock;
 public class NavigationKeyInstructionHandler : MonoBehaviour
 {
     private InputDevice m_previousDevice = null;
-    private UseControl m_actions;
+    private UserControl m_actions;
     public enum Controller { Keyboard, DualShock, Switch, Xbox };
     private Controller m_currentController;
 
@@ -41,7 +41,7 @@ public class NavigationKeyInstructionHandler : MonoBehaviour
 
     void Start()
     {
-        m_actions = new UseControl();
+        m_actions = new UserControl();
         m_keys = new List<NavigationKey>();
         if (m_selectKey != null)
             m_keys.Add(m_selectKey);

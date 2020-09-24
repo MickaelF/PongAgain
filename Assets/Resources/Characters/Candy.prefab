@@ -13,8 +13,6 @@ GameObject:
   - component: {fileID: 2501753334870992774}
   - component: {fileID: 6458790188796038682}
   - component: {fileID: 267623845291295711}
-  - component: {fileID: 7655070956183196099}
-  - component: {fileID: 7123592122441808975}
   m_Layer: 0
   m_Name: Candy
   m_TagString: Untagged
@@ -1874,48 +1872,3 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
---- !u!114 &7655070956183196099
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3488166932002195332}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1dbad66d5abe3d4e80ff9da6b0dc73c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_outlineMat: {fileID: 2100000, guid: 34fa52fa9160f0449b7266b00900b0a5, type: 2}
-  m_name: Candy
---- !u!114 &7123592122441808975
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3488166932002195332}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: 33de0619bcf1a744a93f12e44b488a04,
-    type: 3}
-  m_NotificationBehavior: 0
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents: []
-  m_NeverAutoSwitchControlSchemes: 1
-  m_DefaultControlScheme: 
-  m_DefaultActionMap: f40f69fd-bb97-4222-a443-0db57b4aecbf
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
