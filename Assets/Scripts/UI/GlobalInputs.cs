@@ -10,6 +10,5 @@ public class GlobalInputs : MonoBehaviour
     void Awake()
     {
         Instance = this;
-        inputSystem = GetComponent<InputSystemUIInputModule>();
     }
 }

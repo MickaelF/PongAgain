@@ -20,6 +20,7 @@ public class PlayerSelection : MonoBehaviour
     [SerializeField] private LocaliseText m_playerNumberText = null;
     [SerializeField] private GameObject m_selectionPrefab = null;
     [SerializeField] private ReadyButton m_readyButton = null; 
+    [SerializeField] private GameObject m_readyBanner = null; 
     private int m_playerNumber;
     private CharacterPanel m_cameraPanel = null; 
     private RenderTexture m_targetTexture = null; 
@@ -148,7 +149,9 @@ public class PlayerSelection : MonoBehaviour
         }
         else 
         {
-            // Mark ready
+            m_isReady = true;
+            m_readyBanner.SetActive(true);
+            GetComponentInParent<Screen4>().PlayerStateChanged(m_playerInput.playerIndex, true);
         }
     }
 
@@ -163,8 +166,9 @@ public class PlayerSelection : MonoBehaviour
         }
         else if (m_isReady)
         {
-            m_isReady = false; 
-            // Remove ready thingy
+            m_isReady = false;             m_readyBanner.SetActive(false);
+            GetComponentInParent<Screen4>().PlayerStateChanged(m_playerInput.playerIndex, false);
+
         }
         else
         {

@@ -11,8 +11,11 @@ public class Screen4 : Screen
     [SerializeField] private GameObject m_prefab = null; 
     [SerializeField] private GameObject m_playerPrefab = null; 
     [SerializeField] private HorizontalLayoutGroup m_layout = null; 
+    [SerializeField] private FadingPlane m_fadingPlane = null;
     private List<PlayerSelection> m_playerSelection;
     private PlayerInputManager m_inputManager; 
+
+    private bool m_everyoneIsReady = true; 
 
     void Awake()
     {
@@ -53,7 +56,21 @@ public class Screen4 : Screen
 
     public void PlayerStateChanged(int playerNum, bool ready)
     {
-
+            Debug.Log("PlayerStateChanged");
+        if (m_everyoneIsReady && ready == false)
+        {
+            Debug.Log("Stop");
+            m_fadingPlane.StopFadeOutAnimation();
+        }
+        else 
+        {
+            foreach (var player in m_playerSelection)
+                if (!player.isReady)
+                    return;
+            Debug.Log("Start");
+            m_fadingPlane.StartFadeOutAnimation();
+            m_everyoneIsReady = true;
+        }
     }
 
     public void OnPlayerJoin(PlayerInput input)
