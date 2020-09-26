@@ -7,40 +7,39 @@ using SimplePong.Localisation;
 
 public class PlayerSelection : MonoBehaviour
 {
-    [SerializeField] private RawImage m_characterRenderTexture = null; 
+    [SerializeField] private RawImage m_characterRenderTexture = null;
     [SerializeField] private MultiOptionsElement m_characterName = null;
-    public MultiOptionsElement characterName { get { return m_characterName; } } 
+    public MultiOptionsElement characterName { get { return m_characterName; } }
 
-    [SerializeField] private GameObject m_selectionScreen = null; 
-    [SerializeField] private GameObject m_pressActionScreen = null; 
+    [SerializeField] private GameObject m_selectionScreen = null;
+    [SerializeField] private GameObject m_pressActionScreen = null;
 
-    [SerializeField] private Image m_speedStats = null; 
-    [SerializeField] private Image m_reboundStats = null; 
-    [SerializeField] private Image m_lenghtStats = null; 
+    [SerializeField] private Image m_speedStats = null;
+    [SerializeField] private Image m_reboundStats = null;
+    [SerializeField] private Image m_lenghtStats = null;
     [SerializeField] private LocaliseText m_playerNumberText = null;
     [SerializeField] private GameObject m_selectionPrefab = null;
-    [SerializeField] private ReadyButton m_readyButton = null; 
-    [SerializeField] private GameObject m_readyBanner = null; 
+    [SerializeField] private ReadyButton m_readyButton = null;
+    [SerializeField] private GameObject m_readyBanner = null;
     private int m_playerNumber;
-    private CharacterPanel m_cameraPanel = null; 
-    private RenderTexture m_targetTexture = null; 
+    private CharacterPanel m_cameraPanel = null;
+    private RenderTexture m_targetTexture = null;
 
-    private PlayerInput m_playerInput = null; 
-    public PlayerInput playerInput 
+    private PlayerInput m_playerInput = null;
+    public PlayerInput playerInput
     {
-        get { return m_playerInput; } 
+        get { return m_playerInput; }
         set { SetPlayerInput(value); }
-    } 
+    }
 
-    private bool m_isReady = false; 
-    public bool isReady { get {return m_isReady; } }
+    private bool m_isReady = false;
+    public bool isReady { get { return m_isReady; } }
 
 
     void Awake()
     {
         m_characterName.m_useGlobalInput = false;
         m_characterName.IndexChanged += UpdateCharacter;
-        m_characterName.OptionClicked += SelectReadyButton; 
         m_characterName.options = CharactersGlobal.instance.GetCharacterNames();
 
         var cameraPanelGO = Instantiate(m_selectionPrefab) as GameObject;
@@ -49,7 +48,7 @@ public class PlayerSelection : MonoBehaviour
         m_targetTexture = new RenderTexture(300, 300, 0, RenderTextureFormat.Default);
         m_cameraPanel.GetComponent<Camera>().targetTexture = m_targetTexture;
         m_characterRenderTexture.texture = m_targetTexture;
-        
+
         UpdateCharacter(0);
     }
 
@@ -64,24 +63,8 @@ public class PlayerSelection : MonoBehaviour
 
     public void SetPlayerNumber(int number)
     {
-        m_playerNumber = number; 
+        m_playerNumber = number;
         m_playerNumberText.key = (number == 0) ? TranslationKeys.PlayerOneLabel : TranslationKeys.PlayerTwoLabel;
-    }
-     
-    public void OnPlayerReady()
-    {
-        GetComponentInParent<Screen4>().PlayerStateChanged(m_playerNumber, true);
-        // TODO Change style
-    }
-
-    public void OnPlayerCancel()
-    {
-        GetComponentInParent<Screen4>().PlayerStateChanged(m_playerNumber, false);
-        // TODO Change style
-    }
-
-    private void SelectReadyButton(int index)
-    {
     }
 
     private void SetPlayerInput(PlayerInput input)
@@ -92,6 +75,7 @@ public class PlayerSelection : MonoBehaviour
             proxy.PlayerMoved -= OnMoveMade;
             proxy.PlayerAccept -= OnAcceptPressed;
             proxy.PlayerDecline -= OnDeclinePressed;
+            proxy.DeviceRemoved -= DestroyPlayerInput;
         }
 
         m_playerInput = input;
@@ -101,11 +85,12 @@ public class PlayerSelection : MonoBehaviour
             proxy.PlayerMoved += OnMoveMade;
             proxy.PlayerAccept += OnAcceptPressed;
             proxy.PlayerDecline += OnDeclinePressed;
+            proxy.DeviceRemoved += DestroyPlayerInput;
             m_selectionScreen.SetActive(true);
             m_pressActionScreen.SetActive(false);
             m_characterName.OnSelect(null);
         }
-        else 
+        else
         {
             m_selectionScreen.SetActive(false);
             m_pressActionScreen.SetActive(true);
@@ -127,7 +112,7 @@ public class PlayerSelection : MonoBehaviour
                 m_readyButton.OnSelect(null);
             }
         }
-        else 
+        else
         {
             if (move.y > 0.0f)
             {
@@ -147,7 +132,7 @@ public class PlayerSelection : MonoBehaviour
             m_characterName.OnDeselect(null);
             m_readyButton.OnSelect(null);
         }
-        else 
+        else
         {
             m_isReady = true;
             m_readyBanner.SetActive(true);
@@ -159,14 +144,11 @@ public class PlayerSelection : MonoBehaviour
     {
         if (m_characterName.isSelected)
         {
-            var go = m_playerInput.gameObject;
-            m_characterName.OnDeselect(null);
-            playerInput = null; 
-            Destroy(go);
+            DestroyPlayerInput();
         }
         else if (m_isReady)
         {
-            m_isReady = false;             m_readyBanner.SetActive(false);
+            m_isReady = false; m_readyBanner.SetActive(false);
             GetComponentInParent<Screen4>().PlayerStateChanged(m_playerInput.playerIndex, false);
 
         }
@@ -175,5 +157,13 @@ public class PlayerSelection : MonoBehaviour
             m_characterName.OnSelect(null);
             m_readyButton.OnDeselect(null);
         }
+    }
+
+    private void DestroyPlayerInput()
+    {
+        var go = m_playerInput.gameObject;
+        m_characterName.OnDeselect(null);
+        playerInput = null;
+        Destroy(go);
     }
 }

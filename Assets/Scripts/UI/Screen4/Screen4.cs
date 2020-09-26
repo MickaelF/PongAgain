@@ -8,14 +8,14 @@ using UnityEngine.InputSystem;
 
 public class Screen4 : Screen
 {
-    [SerializeField] private GameObject m_prefab = null; 
-    [SerializeField] private GameObject m_playerPrefab = null; 
-    [SerializeField] private HorizontalLayoutGroup m_layout = null; 
+    [SerializeField] private GameObject m_prefab = null;
+    [SerializeField] private GameObject m_playerPrefab = null;
+    [SerializeField] private HorizontalLayoutGroup m_layout = null;
     [SerializeField] private FadingPlane m_fadingPlane = null;
     private List<PlayerSelection> m_playerSelection;
-    private PlayerInputManager m_inputManager; 
+    private PlayerInputManager m_inputManager;
 
-    private bool m_everyoneIsReady = true; 
+    private bool m_everyoneIsReady = true;
 
     void Awake()
     {
@@ -28,46 +28,43 @@ public class Screen4 : Screen
     {
         gameObject.SetActive(true);
         GlobalInputs.Instance.inputSystem.submit.action.started += m_inputManager.JoinPlayerFromActionIfNotAlreadyJoined;
-        m_inputManager.EnableJoining(); 
-        m_inputManager.onPlayerJoined += OnPlayerJoin; 
-        m_inputManager.onPlayerLeft += OnPlayerLeft; 
+        m_inputManager.EnableJoining();
+        m_inputManager.onPlayerJoined += OnPlayerJoin;
+        m_inputManager.onPlayerLeft += OnPlayerLeft;
 
         for (int i = 0; i < GameParameters.playerNumberSelected; ++i)
-        {            
+        {
             var go = Instantiate(m_prefab, m_layout.transform, false) as GameObject;
             var playerSelection = go.GetComponent<PlayerSelection>();
             playerSelection.SetPlayerNumber(i);
             m_playerSelection.Add(playerSelection);
         }
     }
-    
+
     protected override void HideCurrentScreen()
     {
         GlobalInputs.Instance.inputSystem.submit.action.started -= m_inputManager.JoinPlayerFromActionIfNotAlreadyJoined;
-        m_inputManager.onPlayerJoined -= OnPlayerJoin; 
-        m_inputManager.onPlayerLeft -= OnPlayerLeft; 
-        m_inputManager.DisableJoining(); 
+        m_inputManager.onPlayerJoined -= OnPlayerJoin;
+        m_inputManager.onPlayerLeft -= OnPlayerLeft;
+        m_inputManager.DisableJoining();
         gameObject.SetActive(false);
-        int childCount = m_layout.transform.childCount; 
+        int childCount = m_layout.transform.childCount;
         for (int i = 0; i < childCount; ++i)
             DestroyImmediate(m_layout.transform.GetChild(0).gameObject);
         m_playerSelection.Clear();
-    } 
+    }
 
     public void PlayerStateChanged(int playerNum, bool ready)
     {
-            Debug.Log("PlayerStateChanged");
         if (m_everyoneIsReady && ready == false)
         {
-            Debug.Log("Stop");
             m_fadingPlane.StopFadeOutAnimation();
         }
-        else 
+        else
         {
             foreach (var player in m_playerSelection)
                 if (!player.isReady)
                     return;
-            Debug.Log("Start");
             m_fadingPlane.StartFadeOutAnimation();
             m_everyoneIsReady = true;
         }
@@ -76,10 +73,10 @@ public class Screen4 : Screen
     public void OnPlayerJoin(PlayerInput input)
     {
         DontDestroyOnLoad(input);
-        m_playerSelection[input.playerIndex].playerInput = input;  
-        StopListenToCancelAction();   
-        if (m_playerSelection[0].playerInput != null 
-            && (m_playerSelection.Count == 1 || m_playerSelection[1].playerInput != null))   
+        m_playerSelection[input.playerIndex].playerInput = input;
+        StopListenToCancelAction();
+        if (m_playerSelection[0].playerInput != null
+            && (m_playerSelection.Count == 1 || m_playerSelection[1].playerInput != null))
         {
             GlobalInputs.Instance.inputSystem.submit.action.started -= m_inputManager.JoinPlayerFromActionIfNotAlreadyJoined;
         }
@@ -87,12 +84,12 @@ public class Screen4 : Screen
 
     public void OnPlayerLeft(PlayerInput input)
     {
-        if (m_playerSelection[0].playerInput == null 
+        if (m_playerSelection[0].playerInput == null
             && (m_playerSelection.Count == 1 || m_playerSelection[1].playerInput == null))
-        {            
+        {
             StartListenToCancelAction();
             GlobalInputs.Instance.inputSystem.submit.action.started += m_inputManager.JoinPlayerFromActionIfNotAlreadyJoined;
         }
-        
+
     }
 }

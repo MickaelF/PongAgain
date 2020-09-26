@@ -5,23 +5,23 @@ using UnityEngine.UI;
 
 public class FadingPlane : MonoBehaviour
 {
-    private Animator m_animator; 
+    private Animator m_animator;
 
     void Start()
     {
         m_animator = GetComponent<Animator>();
-        GlobalInputs.Instance.inputSystem.actionsAsset.Disable();      
+        GlobalInputs.Instance.inputSystem.actionsAsset.Disable();
     }
 
     public void StartFadeOutAnimation()
     {
-        Debug.Log("Up");
-        m_animator.SetBool("hello", true);
+        m_animator.SetBool("FadeOut", true);
     }
 
     public void StopFadeOutAnimation()
     {
-        m_animator.SetBool("hello", false);
+        m_animator.SetBool("FadeOut", false);
+        m_animator.Play("Base Layer.Transparent");
     }
 
     public void FadeInToMenuEnded()
@@ -31,12 +31,12 @@ public class FadingPlane : MonoBehaviour
 
     public void SlowFadeOutEnded()
     {
-        
+
     }
 
     public void FadeOutCompleted()
     {
-        
+
     }
 
     public void FadeInToGameWhiteEnded()
