@@ -10,6 +10,13 @@ public class PlayerInputProxy : MonoBehaviour
     public event System.Action PlayerDecline;
     public event System.Action DeviceRemoved;
 
+    void Awake()
+    {
+        GameParameters.devices.Add(GetComponent<PlayerInput>().devices[0]);
+        if (GameParameters.DeviceListUpdate != null)
+            GameParameters.DeviceListUpdate();
+    }
+
     public void OnMove(InputAction.CallbackContext ctx)
     {
         if (ctx.started && PlayerMoved != null)
@@ -32,5 +39,13 @@ public class PlayerInputProxy : MonoBehaviour
     {
         if (DeviceRemoved != null)
             DeviceRemoved();
+    }
+
+    void OnDestroy()
+    {
+        GameParameters.devices.Remove(GetComponent<PlayerInput>().devices[0]);
+
+        if (GameParameters.DeviceListUpdate != null)
+            GameParameters.DeviceListUpdate();
     }
 }

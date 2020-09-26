@@ -12,7 +12,7 @@ using UnityEngine.InputSystem.DualShock;
 public class NavigationKeyInstructionHandler : MonoBehaviour
 {
     private InputDevice m_previousDevice = null;
-    private UserControl m_actions;
+    private UIControls m_actions;
     public enum Controller { Keyboard, DualShock, Switch, Xbox };
     private Controller m_currentController;
 
@@ -41,7 +41,7 @@ public class NavigationKeyInstructionHandler : MonoBehaviour
 
     void Start()
     {
-        m_actions = new UserControl();
+        m_actions = new UIControls();
         m_keys = new List<NavigationKey>();
         if (m_selectKey != null)
             m_keys.Add(m_selectKey);
@@ -57,10 +57,9 @@ public class NavigationKeyInstructionHandler : MonoBehaviour
             SetCurrentDevice(RetrieveController(Gamepad.all[0]));
         else
             SetCurrentDevice(Controller.Keyboard);
+        SetKeyVisibiltity(true, false, true, false);
 
-        // ControllerHandler handler = ControllerHandler.instance;
-        // handler.UserCreated += UpdateControllerKeys;
-        // handler.UserRemoved += UpdateControllerKeys;
+        GameParameters.DeviceListUpdate += UpdateControllerKeys;
     }
 
     void Update()
@@ -107,26 +106,25 @@ public class NavigationKeyInstructionHandler : MonoBehaviour
         DisplayEveryControllerKey();
     }
 
-    private void UpdateControllerKeys(InputUser user)
+    private void UpdateControllerKeys()
     {
-        // ControllerHandler handler = ControllerHandler.instance;
-        // if (handler.userCount == 0)
-        //     DisplayEveryControllerKey();
-        // else
-        // {
-        //     List<Controller> registeredController = new List<Controller>();
-        //     foreach (var device in ControllerHandler.instance.devices)
-        //     {
-        //         Controller type = RetrieveController(device);
-        //         if (!registeredController.Contains(type))
-        //             registeredController.Add(type);
-        //     }
-        //     if (registeredController.Count == 1)
-        //         SetCurrentDevice(registeredController[0]);
-        //     else
-        //         foreach (NavigationKey key in m_keys)
-        //             key.SetControllerTypes(registeredController);
-        // }
+        if (GameParameters.devices.Count == 0)
+            DisplayEveryControllerKey();
+        else
+        {
+            List<Controller> registeredController = new List<Controller>();
+            foreach (var device in GameParameters.devices)
+            {
+                Controller type = RetrieveController(device);
+                if (!registeredController.Contains(type))
+                    registeredController.Add(type);
+            }
+            if (registeredController.Count == 1)
+                SetCurrentDevice(registeredController[0]);
+            else
+                foreach (NavigationKey key in m_keys)
+                    key.SetControllerTypes(registeredController);
+        }
     }
 
     private Controller RetrieveController(InputDevice device)
@@ -155,67 +153,68 @@ public class NavigationKeyInstructionHandler : MonoBehaviour
     private void InitializeKeys()
     {
 
-        // foreach (var controller in System.Enum.GetValues(typeof(Controller)))
-        // {
-        //     string specificPath = "";
-        //     string defaultPath = "<Gamepad>/";
-        //     AbstractController controllerPath = null;
-        //     switch (controller)
-        //     {
-        //         case Controller.Keyboard:
-        //             specificPath = "<Keyboard>/";
-        //             defaultPath = specificPath;
-        //             KeyboardController kc = new KeyboardController();
-        //             kc.InitializePaths(Keyboard.current);
-        //             controllerPath = kc;
-        //             break;
-        //         case Controller.DualShock:
-        //             specificPath = "<DualShockGamepad>/";
-        //             controllerPath = new DualShockController();
-        //             break;
-        //         case Controller.Switch:
-        //             specificPath = "<SwitchProControllerHID>/";
-        //             controllerPath = new SwitchController();
-        //             break;
-        //         case Controller.Xbox:
-        //             specificPath = "<XInputController>/";
-        //             controllerPath = new XboxController();
-        //             break;
-        //     }
+        Debug.Log("P");
+        foreach (var controller in System.Enum.GetValues(typeof(Controller)))
+        {
+            string specificPath = "";
+            string defaultPath = "<Gamepad>/";
+            AbstractController controllerPath = null;
+            switch (controller)
+            {
+                case Controller.Keyboard:
+                    specificPath = "<Keyboard>/";
+                    defaultPath = specificPath;
+                    KeyboardController kc = new KeyboardController();
+                    kc.InitializePaths(Keyboard.current);
+                    controllerPath = kc;
+                    break;
+                case Controller.DualShock:
+                    specificPath = "<DualShockGamepad>/";
+                    controllerPath = new DualShockController();
+                    break;
+                case Controller.Switch:
+                    specificPath = "<SwitchProControllerHID>/";
+                    controllerPath = new SwitchController();
+                    break;
+                case Controller.Xbox:
+                    specificPath = "<XInputController>/";
+                    controllerPath = new XboxController();
+                    break;
+            }
 
-        //     foreach (var bind in m_actions.UI.Confirm.bindings)
-        //     {
-        //         if (bind.path.Contains(defaultPath) || bind.path.Contains(specificPath))
-        //         {
-        //             if (DefineKeySprite(bind.path, ref m_settingsKey, controllerPath, specificPath, defaultPath))
-        //                 break;
-        //         }
-        //     }
-        //     foreach (var bind in m_actions.UI.Submit.bindings)
-        //     {
-        //         if (bind.path.Contains(defaultPath) || bind.path.Contains(specificPath))
-        //         {
-        //             if (DefineKeySprite(bind.path, ref m_selectKey, controllerPath, specificPath, defaultPath))
-        //                 break;
-        //         }
-        //     }
-        //     foreach (var bind in m_actions.UI.Cancel.bindings)
-        //     {
-        //         if (bind.path.Contains(defaultPath) || bind.path.Contains(specificPath))
-        //         {
-        //             if (DefineKeySprite(bind.path, ref m_backKey, controllerPath, specificPath, defaultPath))
-        //                 break;
-        //         }
-        //     }
-        //     foreach (var bind in m_actions.UI.DefaultValue.bindings)
-        //     {
-        //         if (bind.path.Contains(defaultPath) || bind.path.Contains(specificPath))
-        //         {
-        //             if (DefineKeySprite(bind.path, ref m_defaultKey, controllerPath, specificPath, defaultPath))
-        //                 break;
-        //         }
-        //     }
-        // }
+            foreach (var bind in m_actions.UI.Submit.bindings)
+            {
+                if (bind.path.Contains(defaultPath) || bind.path.Contains(specificPath))
+                {
+                    if (DefineKeySprite(bind.path, ref m_selectKey, controllerPath, specificPath, defaultPath))
+                        break;
+                }
+            }
+            foreach (var bind in m_actions.UI.Cancel.bindings)
+            {
+                if (bind.path.Contains(defaultPath) || bind.path.Contains(specificPath))
+                {
+                    if (DefineKeySprite(bind.path, ref m_backKey, controllerPath, specificPath, defaultPath))
+                        break;
+                }
+            }
+            foreach (var bind in m_actions.UI.Settings.bindings)
+            {
+                if (bind.path.Contains(defaultPath) || bind.path.Contains(specificPath))
+                {
+                    if (DefineKeySprite(bind.path, ref m_settingsKey, controllerPath, specificPath, defaultPath))
+                        break;
+                }
+            }
+            foreach (var bind in m_actions.UI.Default.bindings)
+            {
+                if (bind.path.Contains(defaultPath) || bind.path.Contains(specificPath))
+                {
+                    if (DefineKeySprite(bind.path, ref m_defaultKey, controllerPath, specificPath, defaultPath))
+                        break;
+                }
+            }
+        }
     }
 
     public void SetKeyVisibiltity(bool backKey, bool defaultKey, bool selectKey, bool settingsKey)

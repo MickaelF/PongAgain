@@ -61,6 +61,4 @@ public class NavigationKey : MonoBehaviour
             m_currentIndex = 0;
         return m_sprites[m_possibleControllerType[m_currentIndex]];
     }
-
-
 }
