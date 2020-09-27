@@ -12,6 +12,7 @@ public class Screen4 : Screen
     [SerializeField] private GameObject m_playerPrefab = null;
     [SerializeField] private HorizontalLayoutGroup m_layout = null;
     [SerializeField] private FadingPlane m_fadingPlane = null;
+    [SerializeField] private NavigationKeyInstructionHandler m_headerKeys = null;
     private List<PlayerSelection> m_playerSelection;
     private PlayerInputManager m_inputManager;
 
@@ -27,6 +28,7 @@ public class Screen4 : Screen
     public override void Display()
     {
         gameObject.SetActive(true);
+        m_headerKeys.displayLastUsed = false;
         GlobalInputs.Instance.inputSystem.submit.action.started += m_inputManager.JoinPlayerFromActionIfNotAlreadyJoined;
         m_inputManager.EnableJoining();
         m_inputManager.onPlayerJoined += OnPlayerJoin;
@@ -44,6 +46,7 @@ public class Screen4 : Screen
     protected override void HideCurrentScreen()
     {
         GlobalInputs.Instance.inputSystem.submit.action.started -= m_inputManager.JoinPlayerFromActionIfNotAlreadyJoined;
+        m_headerKeys.displayLastUsed = true;
         m_inputManager.onPlayerJoined -= OnPlayerJoin;
         m_inputManager.onPlayerLeft -= OnPlayerLeft;
         m_inputManager.DisableJoining();

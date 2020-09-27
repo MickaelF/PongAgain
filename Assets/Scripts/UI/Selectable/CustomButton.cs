@@ -4,15 +4,24 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class ReadyButton : MonoBehaviour, ISelectHandler, IDeselectHandler
+public class CustomButton : MonoBehaviour, ISelectHandler, IDeselectHandler
 {
-    
-    [SerializeField] private Button m_button = null; 
-    [SerializeField] private Text m_text = null; 
+    private Button m_button = null; 
+    public Button button { get { return m_button; } }
+    private Text m_text = null; 
     private Animation m_animation = null; 
+    public System.Action ButtonPressed;
+
+    public Navigation navigation 
+    {
+        get { return m_button.navigation; }
+        set { m_button.navigation = value; }
+    }
 
     void Awake() 
     {
+        m_button = GetComponent<Button>();
+        m_text = GetComponentInChildren<Text>();
         m_animation = GetComponent<Animation>();
         OnDeselect(null);
     }
@@ -33,5 +42,11 @@ public class ReadyButton : MonoBehaviour, ISelectHandler, IDeselectHandler
         m_text.color = Style.lightGrey;
         if (m_animation.isPlaying)
             m_animation.Stop();
+    }
+
+    public void OnClick()
+    {
+        if (ButtonPressed != null)
+            ButtonPressed();
     }
 }

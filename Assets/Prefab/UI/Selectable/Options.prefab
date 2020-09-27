@@ -306,7 +306,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: edd081b89de13064fa7b1c91998daf08, type: 3}
+    m_Font: {fileID: 12800000, guid: 9f0619eea884cb947ae297663041267d, type: 3}
     m_FontSize: 40
     m_FontStyle: 0
     m_BestFit: 0
@@ -464,6 +464,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63782139aef1ad44eac35c0cabcae174, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_useGlobalInput: 1
   m_leftArrow: {fileID: 8869242015933116384}
   m_rightArrow: {fileID: 2332712827228611397}
   m_background: {fileID: 5536901170923096543}

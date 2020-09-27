@@ -12,9 +12,15 @@ public class Screen3 : Screen
     [SerializeField] private GameObject m_optionPrefab = null;
     [SerializeField] private VerticalLayoutGroup m_layoutGroup = null;
     [SerializeField] private LocaliseText m_parameterLabel = null; 
-    [SerializeField] private Button m_validateButton = null; 
+    private CustomButton m_validateButton = null; 
 
     private List<MultiOptionsElement> m_uiElements = new List<MultiOptionsElement>();
+
+    void Awake()
+    {
+        m_validateButton = GetComponentInChildren<CustomButton>();
+        m_validateButton.ButtonPressed += OnValidate;
+    }
 
     public override void Display()
     {
@@ -73,7 +79,7 @@ public class Screen3 : Screen
         }
         var lastElement = m_uiElements[m_uiElements.Count - 1].GetComponent<Button>();
         var lastElementNav = lastElement.navigation;
-        lastElementNav.selectOnDown = m_validateButton;
+        lastElementNav.selectOnDown = m_validateButton.button;
         lastElement.navigation = lastElementNav; 
 
         var validateNavigation = new Navigation(); 

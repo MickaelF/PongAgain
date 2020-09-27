@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using SimplePong.Controller;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Users;
 using UnityEngine.InputSystem.Switch;
-using UnityEngine.InputSystem.XInput;
 using UnityEngine.InputSystem.DualShock;
 
-// TODO Correct this class when the new controller handler is created.
 public class NavigationKeyInstructionHandler : MonoBehaviour
 {
+    static public NavigationKeyInstructionHandler instance;
     private InputDevice m_previousDevice = null;
     private UIControls m_actions;
     public enum Controller { Keyboard, DualShock, Switch, Xbox };
@@ -20,6 +18,14 @@ public class NavigationKeyInstructionHandler : MonoBehaviour
     [SerializeField] private NavigationKey m_defaultKey = null;
     [SerializeField] private NavigationKey m_selectKey = null;
     [SerializeField] private NavigationKey m_settingsKey = null;
+
+    public List<Sprite> selectKeySprites
+    {
+        get
+        {
+            return m_selectKey.sprites;
+        }
+    }
 
     private List<NavigationKey> m_keys;
 
@@ -39,10 +45,15 @@ public class NavigationKeyInstructionHandler : MonoBehaviour
         }
     }
 
-    void Start()
+    void Awake()
     {
+        instance = this;
         m_actions = new UIControls();
         m_keys = new List<NavigationKey>();
+    }
+
+    void Start()
+    {
         if (m_selectKey != null)
             m_keys.Add(m_selectKey);
         if (m_defaultKey != null)
@@ -152,8 +163,6 @@ public class NavigationKeyInstructionHandler : MonoBehaviour
 
     private void InitializeKeys()
     {
-
-        Debug.Log("P");
         foreach (var controller in System.Enum.GetValues(typeof(Controller)))
         {
             string specificPath = "";

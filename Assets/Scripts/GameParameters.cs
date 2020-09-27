@@ -24,6 +24,13 @@ public class GameParameters
     static public List<TranslationKeys> difficultyKeys { get { return m_difficultyKeys; } }
     static public int difficultySelected = 0;
 
+
+    static public void RemoveDevice(InputDevice device)
+    {
+        devices.Remove(device);
+        if (DeviceListUpdate != null)
+            DeviceListUpdate();
+    }
     static public List<InputDevice> devices = new List<InputDevice>();
     static public System.Action DeviceListUpdate;
 }

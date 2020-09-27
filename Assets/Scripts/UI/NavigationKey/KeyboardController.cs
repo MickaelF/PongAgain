@@ -87,6 +87,7 @@ namespace SimplePong.Controller
             if (path == "7") return "Sprites/Controller/Keyboard/Dark/Keyboard_Black_7";
             if (path == "8") return "Sprites/Controller/Keyboard/Dark/Keyboard_Black_8";
             if (path == "9") return "Sprites/Controller/Keyboard/Dark/Keyboard_Black_9";
+            if (path == "backspace") return "Sprites/Controller/Keyboard/Dark/Keyboard_Black_Backspace";
 
             if (path == "tab") return "Sprites/Controller/Keyboard/Dark/Keyboard_Black_Tab";
             if (path == "q") return qKeyDisplayNamePath;

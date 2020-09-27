@@ -43,9 +43,9 @@ public class PlayerInputProxy : MonoBehaviour
 
     void OnDestroy()
     {
-        GameParameters.devices.Remove(GetComponent<PlayerInput>().devices[0]);
+        if (GetComponent<PlayerInput>().devices.Count <= 0)
+            return;
 
-        if (GameParameters.DeviceListUpdate != null)
-            GameParameters.DeviceListUpdate();
+        GameParameters.RemoveDevice(GetComponent<PlayerInput>().devices[0]);
     }
 }

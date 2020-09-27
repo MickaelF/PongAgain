@@ -20,7 +20,7 @@ public class NavigationKeyImage : MonoBehaviour
         m_parent = GetComponentInParent<NavigationKey>();
     }
 
-    void onAnimationEnded()
+    public void OnAnimationEnded()
     {
         m_key.sprite = m_parent.GetNextSprite();
     }

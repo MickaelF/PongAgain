@@ -19,7 +19,7 @@ public class PlayerSelection : MonoBehaviour
     [SerializeField] private Image m_lenghtStats = null;
     [SerializeField] private LocaliseText m_playerNumberText = null;
     [SerializeField] private GameObject m_selectionPrefab = null;
-    [SerializeField] private ReadyButton m_readyButton = null;
+    [SerializeField] private CustomButton m_readyButton = null;
     [SerializeField] private GameObject m_readyBanner = null;
     private int m_playerNumber;
     private CharacterPanel m_cameraPanel = null;
@@ -34,7 +34,6 @@ public class PlayerSelection : MonoBehaviour
 
     private bool m_isReady = false;
     public bool isReady { get { return m_isReady; } }
-
 
     void Awake()
     {
@@ -75,7 +74,7 @@ public class PlayerSelection : MonoBehaviour
             proxy.PlayerMoved -= OnMoveMade;
             proxy.PlayerAccept -= OnAcceptPressed;
             proxy.PlayerDecline -= OnDeclinePressed;
-            proxy.DeviceRemoved -= DestroyPlayerInput;
+            proxy.DeviceRemoved -= OnDeviceRemoved;
         }
 
         m_playerInput = input;
@@ -85,7 +84,7 @@ public class PlayerSelection : MonoBehaviour
             proxy.PlayerMoved += OnMoveMade;
             proxy.PlayerAccept += OnAcceptPressed;
             proxy.PlayerDecline += OnDeclinePressed;
-            proxy.DeviceRemoved += DestroyPlayerInput;
+            proxy.DeviceRemoved += OnDeviceRemoved;
             m_selectionScreen.SetActive(true);
             m_pressActionScreen.SetActive(false);
             m_characterName.OnSelect(null);
@@ -148,15 +147,22 @@ public class PlayerSelection : MonoBehaviour
         }
         else if (m_isReady)
         {
-            m_isReady = false; m_readyBanner.SetActive(false);
+            m_isReady = false; 
+            m_readyBanner.SetActive(false);
             GetComponentInParent<Screen4>().PlayerStateChanged(m_playerInput.playerIndex, false);
-
         }
         else
         {
             m_characterName.OnSelect(null);
             m_readyButton.OnDeselect(null);
         }
+    }
+
+    private void OnDeviceRemoved()
+    {
+        GetComponentInParent<Screen4>().PlayerStateChanged(m_playerInput.playerIndex, false);
+        GameParameters.RemoveDevice(m_playerInput.devices[0]);
+        DestroyPlayerInput();
     }
 
     private void DestroyPlayerInput()

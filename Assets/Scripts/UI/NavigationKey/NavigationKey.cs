@@ -19,6 +19,17 @@ public class NavigationKey : MonoBehaviour
 
     private NavigationKeyImage m_keyImage;
 
+    public List<Sprite> sprites
+    {
+        get
+        {
+            var list = new List<Sprite>();
+            foreach (var val in m_sprites)
+                list.Add(val.Value);
+            return list;
+        }
+    }
+
     void Awake()
     {
         m_animation = GetComponentInChildren<Animation>();
