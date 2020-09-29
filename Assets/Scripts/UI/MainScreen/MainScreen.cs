@@ -4,11 +4,13 @@ using UnityEngine.EventSystems;
 public class MainScreen : Screen
 {
     [SerializeField] private GameObject m_header = null;
+    [SerializeField] private QuitPopUp m_popUp = null;
     private CustomButton m_letsPlayButton = null;
     void Start()
     {
         m_currentScreen = this;
         StartListenToCancelAction();
+        m_popUp.gameObject.SetActive(false);
         m_header.SetActive(false);
         m_letsPlayButton = GetComponentInChildren<CustomButton>();
         m_letsPlayButton.ButtonPressed += OnLetsPlayPressed;
@@ -26,5 +28,10 @@ public class MainScreen : Screen
     {
         GoToNextScreen();
         m_header.SetActive(true);
+    }
+
+    public override void OnCancelPressed()
+    { 
+        m_popUp.Display(this);   
     }
 }
