@@ -1,5 +1,6 @@
 using SimplePong.Localisation;
 using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class GameParameters
@@ -24,6 +25,8 @@ public class GameParameters
     static public List<TranslationKeys> difficultyKeys { get { return m_difficultyKeys; } }
     static public int difficultySelected = 0;
 
+    static public PlayerInput playerOneInput = null; 
+    static public PlayerInput playerTwoInput = null;  
 
     static public void RemoveDevice(InputDevice device)
     {

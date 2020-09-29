@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerInputProxy : MonoBehaviour
 {
+    private PlayerInput m_input = null; 
     public event System.Action<Vector2> PlayerMoved;
     public event System.Action PlayerAccept;
     public event System.Action PlayerDecline;
@@ -12,7 +13,12 @@ public class PlayerInputProxy : MonoBehaviour
 
     void Awake()
     {
-        GameParameters.devices.Add(GetComponent<PlayerInput>().devices[0]);
+        m_input = GetComponent<PlayerInput>();
+        if (m_input.playerIndex == 0)
+            GameParameters.playerOneInput = m_input;
+        else 
+            GameParameters.playerTwoInput = m_input;
+        GameParameters.devices.Add(m_input.devices[0]);
         if (GameParameters.DeviceListUpdate != null)
             GameParameters.DeviceListUpdate();
     }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class FadingPlane : MonoBehaviour
 {
@@ -31,16 +32,14 @@ public class FadingPlane : MonoBehaviour
 
     public void SlowFadeOutEnded()
     {
-
+        GlobalInputs.Instance.inputSystem.actionsAsset.Disable();
+        GameParameters.playerOneInput.gameObject.SetActive(false);
+        if (GameParameters.playerTwoInput != null)
+        GameParameters.playerTwoInput.gameObject.SetActive(false);
     }
 
     public void FadeOutCompleted()
     {
-
-    }
-
-    public void FadeInToGameWhiteEnded()
-    {
-
+        SceneManager.LoadScene("Scenes/GameScene");
     }
 }
