@@ -32,9 +32,11 @@ public class FadingPlane : MonoBehaviour
     public void SlowFadeOutEnded()
     {
         GlobalInputs.Instance.inputSystem.actionsAsset.Disable();
-        GameParameters.playerOneInput.gameObject.SetActive(false);
-        if (GameParameters.playerTwoInput != null)
-        GameParameters.playerTwoInput.gameObject.SetActive(false);
+        foreach(var pi in GameParameters.playerInput)
+        {
+            if (pi != null)
+                pi.gameObject.SetActive(false);
+        }
     }
 
     public void FadeOutCompleted()

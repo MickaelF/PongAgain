@@ -25,8 +25,9 @@ public class GameParameters
     static public List<TranslationKeys> difficultyKeys { get { return m_difficultyKeys; } }
     static public int difficultySelected = 0;
 
-    static public PlayerInput playerOneInput = null; 
-    static public PlayerInput playerTwoInput = null;  
+    static public string[] characterSelected = new string[2]; 
+
+    static public PlayerInput[] playerInput = new PlayerInput[2]; 
 
     static public void RemoveDevice(InputDevice device)
     {

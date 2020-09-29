@@ -49,6 +49,8 @@ public class MultiOptionsElement : MonoBehaviour, ISelectHandler, IDeselectHandl
     private int m_currentIndex = 0; 
     public int currentIndex { get { return m_currentIndex; } }
 
+    public string selectedOptionText { get {return m_option.text; } }
+
     void Awake() 
     {
         OnDeselect(null);

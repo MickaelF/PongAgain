@@ -59,17 +59,22 @@ public class Screen4 : Screen
 
     public void PlayerStateChanged(int playerNum, bool ready)
     {
-        if (m_everyoneIsReady && ready == false)
+        if (ready)
         {
-            m_fadingPlane.StopFadeOutAnimation();
+            GameParameters.characterSelected[playerNum] = m_playerSelection[playerNum].characterName.selectedOptionText;
+            int otherPlayerIndex = playerNum == 0 ? 1 : 0;
+            if (m_playerSelection.Count <= otherPlayerIndex || m_playerSelection[otherPlayerIndex].isReady )
+            {
+                m_fadingPlane.StartFadeOutAnimation();
+                m_everyoneIsReady = true;
+            }
         }
         else
         {
-            foreach (var player in m_playerSelection)
-                if (!player.isReady)
-                    return;
-            m_fadingPlane.StartFadeOutAnimation();
-            m_everyoneIsReady = true;
+            if (m_everyoneIsReady)
+            {
+                m_fadingPlane.StopFadeOutAnimation();
+            }            
         }
     }
 

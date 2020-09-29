@@ -19,8 +19,7 @@ public class CharacterPanel : MonoBehaviour
         int i = 0;
         foreach (var charact in CharactersGlobal.instance.characters)
         {
-            var prefab = Resources.Load<GameObject>("Characters/" + charact.name);
-            var go = GameObject.Instantiate(prefab);
+            var go = GameObject.Instantiate(Resources.Load<GameObject>("Characters/" + charact.name));
             go.transform.SetParent(m_childrenParent);
             go.transform.position = ComputeNextPosition(i);
             go.transform.Rotate(0.0f, m_angle * i, 0.0f, Space.Self);
