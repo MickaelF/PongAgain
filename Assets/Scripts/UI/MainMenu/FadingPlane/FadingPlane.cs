@@ -35,7 +35,11 @@ public class FadingPlane : MonoBehaviour
         foreach(var pi in GameParameters.playerInput)
         {
             if (pi != null)
-                pi.gameObject.SetActive(false);
+                pi.gameObject.GetComponent<PlayerInputProxy>().enabled = false;
+        }
+        if (GameParameters.playerNumberSelected == 2)
+        {
+            GameParameters.characterSelected[1] = CharactersGlobal.instance.randomCharacter;
         }
     }
 

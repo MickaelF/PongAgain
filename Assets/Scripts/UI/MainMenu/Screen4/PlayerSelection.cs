@@ -103,9 +103,9 @@ public class PlayerSelection : MonoBehaviour
 
         if (m_characterName.isSelected)
         {
-            if (move.x != 0.0f)
+            if (Mathf.Abs(move.x) >= 0.50f)
                 m_characterName.OnMoveDone(move);
-            else if (move.y < 0.0f)
+            if (move.y < -0.5f)
             {
                 m_characterName.OnDeselect(null);
                 m_readyButton.OnSelect(null);
@@ -113,7 +113,7 @@ public class PlayerSelection : MonoBehaviour
         }
         else
         {
-            if (move.y > 0.0f)
+            if (move.y > 0.5f)
             {
                 m_characterName.OnSelect(null);
                 m_readyButton.OnDeselect(null);

@@ -61,7 +61,7 @@ public class Screen4 : Screen
     {
         if (ready)
         {
-            GameParameters.characterSelected[playerNum] = m_playerSelection[playerNum].characterName.selectedOptionText;
+            GameParameters.characterSelected[playerNum] = m_playerSelection[playerNum].characterName.currentIndex;
             int otherPlayerIndex = playerNum == 0 ? 1 : 0;
             if (m_playerSelection.Count <= otherPlayerIndex || m_playerSelection[otherPlayerIndex].isReady )
             {

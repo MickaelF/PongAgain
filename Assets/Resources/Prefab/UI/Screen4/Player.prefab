@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3775317937633353152}
   - component: {fileID: -5077390178374280479}
   - component: {fileID: 8987855576389270450}
+  - component: {fileID: 4573414226910802321}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -116,13 +117,65 @@ MonoBehaviour:
     m_ActionId: 3cb0bfa5-e1b7-483e-8e83-1b4016d1a3f2
     m_ActionName: UI/Cancel[/XInputControllerWindows/buttonEast,/Keyboard/backspace,/Keyboard/escape]
   - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 572290c5-b22d-4ac0-9c89-0d6b46859d0e
-    m_ActionName: UI/Default[/XInputControllerWindows/buttonWest,/Keyboard/i]
+      m_Calls:
+      - m_Target: {fileID: 4573414226910802321}
+        m_MethodName: OnMove
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 7a6f193c-6183-47be-9943-b1ea33f0a4dd
+    m_ActionName: Game/Move[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d,/Keyboard/upArrow,/Keyboard/downArrow,/Keyboard/leftArrow,/Keyboard/rightArrow]
   - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: d22f98b5-b0c4-4e6b-98b9-d015ac8d3956
-    m_ActionName: UI/Settings[/Keyboard/o,/XInputControllerWindows/buttonNorth]
+      m_Calls:
+      - m_Target: {fileID: 4573414226910802321}
+        m_MethodName: OnLaunch
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: ddec54aa-8eff-422a-9641-658d8c947547
+    m_ActionName: Game/Launch[/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4573414226910802321}
+        m_MethodName: OnPause
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 4f4407d5-cea2-4515-992b-bf1036df291c
+    m_ActionName: Game/Pause[/Keyboard/escape]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4573414226910802321}
+        m_MethodName: OnPower
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: ca6bca3a-f146-43e8-8c86-2478af11a9e1
+    m_ActionName: Game/Power[/Keyboard/shift]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: UI
@@ -140,3 +193,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ce91215fe913904793cd3e1613fa40b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4573414226910802321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7035029395147514726}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4db6c0cee79b67142abd951bd4adf39f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_speed: 50

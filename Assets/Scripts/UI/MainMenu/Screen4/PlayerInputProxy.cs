@@ -11,6 +11,9 @@ public class PlayerInputProxy : MonoBehaviour
     public event System.Action PlayerDecline;
     public event System.Action DeviceRemoved;
 
+    private bool m_waiting = false;
+    private float m_duration = 0.0f;
+
     void Awake()
     {
         m_input = GetComponent<PlayerInput>();
@@ -20,10 +23,20 @@ public class PlayerInputProxy : MonoBehaviour
             GameParameters.DeviceListUpdate();
     }
 
+    void Update()
+    {
+        if (m_waiting && (m_duration += Time.deltaTime) >= 0.10f)
+            m_waiting = false;   
+    }
+
     public void OnMove(InputAction.CallbackContext ctx)
     {
-        if (ctx.started && PlayerMoved != null)
+        if (PlayerMoved != null && !m_waiting)
+        {
             PlayerMoved(ctx.ReadValue<Vector2>());
+            m_waiting = true;
+            m_duration = 0.0f;
+        }
     }
 
     public void OnAccept(InputAction.CallbackContext ctx)
