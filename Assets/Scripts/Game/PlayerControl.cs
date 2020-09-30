@@ -15,17 +15,29 @@ public class PlayerControl : MonoBehaviour
     private bool m_launch = false; 
     public bool launch { set { m_launch = value; } }
 
-    // Start is called before the first frame update
+    private Vector2 m_maxHorizontal = new Vector2(-10.0f, 10.0f);
+
     void Start()
     {
         m_actions = new UserControl();
         m_playerInput = GetComponent<PlayerInput>();
+        m_data = CharactersGlobal.instance.characters[0];
     }
 
-    // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        transform.Translate(m_moveVector * m_speed * m_data.speed * Time.deltaTime);
+        var move = m_moveVector * m_speed * m_data.speed * Time.deltaTime;
+        if (move.x > 0.0f)
+        {
+            if (transform.position.x + move.x > m_maxHorizontal[1])
+                move.x = m_maxHorizontal[1] - transform.position.x;
+        }
+        else if (move.x < 0.0f)
+        {
+            if (transform.position.x + move.x < m_maxHorizontal[0])
+                move.x = m_maxHorizontal[0] - transform.position.x  ;
+        }
+        transform.Translate(move);
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -33,8 +45,6 @@ public class PlayerControl : MonoBehaviour
         var move2D = context.ReadValue<Vector2>();
         m_moveVector.x = move2D.x;
         m_moveVector.y = move2D.y;
-        
-        Debug.Log("MOve : " + m_moveVector);
     }
     public void OnLaunch(InputAction.CallbackContext context)
     { 
