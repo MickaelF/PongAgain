@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
 {
     private PlayerControl[] m_player = new PlayerControl[2];
     private Vector2 m_originPosition = new Vector2(-75.0f, 30.0f);
-    [SerializeField] private Ball m_ball; 
+    [SerializeField] private Ball m_ball = null; 
     void Start()
     {
         for (int i = 0; i < GameParameters.playerNumberSelected; ++i)

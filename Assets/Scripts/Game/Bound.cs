@@ -5,7 +5,7 @@ using UnityEngine;
 public class Bound : MonoBehaviour
 {
     public enum Type { Left, Right, Top, Bottom, InnerLeft, InnerRight};
-    [SerializeField] private Type m_type;
+    [SerializeField] private Type m_type = Type.Left;
     public Type type { get { return m_type; } } 
     private BoxCollider m_collider; 
 

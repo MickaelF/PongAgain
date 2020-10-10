@@ -5,20 +5,20 @@ using UnityEngine;
 public class Ball : MonoBehaviour
 {
     private Vector3 m_moveVector;
-    private float m_speed = 100.0f;
+    private float m_speed = 50.0f;
     public System.Action PlayerOneGoal; 
     public System.Action PlayerTwoGoal;
 
-    public
+    private Rigidbody m_rigidbody;
     void Start()
     {
-        
+        m_rigidbody = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        transform.Translate(m_moveVector * m_speed * Time.deltaTime);
+        m_rigidbody.velocity = m_moveVector * m_speed;
     }
 
     public void StartOnLeft()
@@ -33,7 +33,7 @@ public class Ball : MonoBehaviour
 
     public void OnCollisionEnter(Collision other)
     {
-        Debug.Log("In Collision Enter");
+        Debug.Log("In Collision Enter : " + other.gameObject);
         var boundClass = other.gameObject.GetComponent<Bound>();
         if (boundClass)
         {
@@ -48,8 +48,9 @@ public class Ball : MonoBehaviour
         }
         else 
         {
-            float angle = Vector3.Angle(other.GetContact(0).normal, m_moveVector);
-            m_moveVector = Quaternion.AngleAxis(-angle, other.GetContact(0).normal) * m_moveVector;
+            float angle = Vector3.SignedAngle(-m_moveVector, other.GetContact(0).normal, Vector3.forward);
+            m_moveVector = Quaternion.AngleAxis(angle, Vector3.forward) * other.GetContact(0).normal;
+            m_moveVector.Normalize();
         }
     }
 }
